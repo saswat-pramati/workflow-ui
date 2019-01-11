@@ -1,0 +1,10 @@
+<svg:g [ngSwitch]="type">
+  <svg:g app-startend *ngSwitchCase="'circle'" x={{cordinate.x}} y={{cordinate.y}} rx="40" ry="20" text="Start" height="40" name={{name}} width="80"
+      id={{id}} (select)="onSelect($event)" isSelected={{isSelected}} nextId={{nextId}} (position)="onMove($event)"/>
+  <svg:g app-activity *ngSwitchCase="'activity'" x={{cordinate.x}} y={{cordinate.y}} height="50" name={{name}}
+   width="150" name="activity1" stepname="AddTwoNumber" id={{id}} id={{id}} (select)="onSelect($event)"
+   isSelected={{isSelected}} nextId={{nextId}} (position)="onMove($event)"/>
+  <!-- <svg:g app-arrow *ngSwitchCase="'arrow'"  x={{cordinate.x}} y={{cordinate.y}} direction="down" id={{id}}  /> -->
+  <svg:g app-condition *ngSwitchCase="'condition'" x={{cordinate.x}} y={{cordinate.y}} conditionName="If Sum > 3" id={{id}} name={{name}}
+      id={{id}} (select)="onSelect($event)" isSelected={{isSelected}} nextId={{nextId}} (position)="onMove($event)" height="100" width="100" />
+</svg:g>

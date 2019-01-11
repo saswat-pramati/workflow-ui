@@ -1,0 +1,15 @@
+
+
+<div class="card bg-light mb-3" >
+  <div class="card-header bg-dark text-white">Actions</div>
+  <div class="card-body" id="control-body" style="padding: 0">
+    <div class="card-text">
+      <ul class="list-group">
+          <li class="list-group-item" title="Create a new workflow" (click)="new.emit()">New</li>
+          <!-- <li class="list-group-item" title="Save workflow" (click)="save.emit()">{{ isEditMode ? 'Update': 'Save'}}</li> -->
+          <li class="list-group-item" title="Load existing workflow" (click)="load.emit()">Load</li>
+          <li class="list-group-item" title="Clear workflow" (click)="clear.emit(true)">Clear</li>
+      </ul>
+    </div>
+  </div>
+</div>

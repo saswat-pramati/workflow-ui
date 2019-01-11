@@ -1,0 +1,174 @@
+<app-subaction (move)="onActionMove($event)" (delete)="delete()" (toggleUnDo)="onActionToggle($event)"></app-subaction>
+<div class="row">
+    <div class="col-md-1 border" style="padding: 3px;">
+          <app-action-bar
+              (new)="openSaveModal(saveModal)"
+              (clear)="onClear()"
+              (load)="openLoadModal(template)"
+              ></app-action-bar>
+          <app-control-bar (select)="selectControlFromToolBar($event)"></app-control-bar>
+    </div>
+    <div class="col-md-8 border div-pannel graph" (dragover)="$event.preventDefault()" (drop)="onDrop($event)">
+      <svg xmlns="http://www.w3.org/2000/svg" class="svg" (click)="createObject($event)" (mousemove)="drawVirtualLink($event)">
+        <g *ngFor="let item of activityList">
+            <svg:g app-component-selector
+              [id]=item.id
+              [type]=item.type
+              [cordinate]=item.cordinate
+              [isSelected]=item.isSelected
+              [nextId]=item.nextId
+              [name]=item.data.Id
+              (select)="onSelectControl($event)"
+              (move)="onPositionChange(item.id, $event)"
+               />
+        </g>
+        <g *ngFor="let link of linkList">
+            <svg:g app-twodimension-arrow
+                [id]=link.id
+                [x1]=link.cordinate.x1
+                [y1]=link.cordinate.y1
+                [x2]=link.cordinate.x2
+                [y2]=link.cordinate.y2
+                [fromId]=link.fromId
+                [toId]=link.toId
+                [fromControlData]=link.fromControlData
+                [isSelected]=link.isSelected
+                [fromDirection]=link.fromDirection
+                [pointDirection]=link.toDirection
+                (select)="onSelectLink($event)" />
+        </g>
+        <g>
+          <svg:g app-virtual-arrow *ngIf="drawingLink && drawingLink.x2"
+              [x1]=drawingLink.x1
+              [y1]=drawingLink.y1
+              [x2]=drawingLink.x2
+              [y2]=drawingLink.y2
+              [pointDirection]=drawingLink.fromDirection
+               />
+        </g>
+      </svg>
+    </div>
+    <div class="col-md-3 border div-pannel">
+      <div class="row">
+         <app-property-bar style="width: 100%;" [data]="selectedControlData">
+         </app-property-bar>
+      </div>
+      <div class="row">
+         <app-codepannel style="width:100%; ">
+           {{ activityList | json }}
+         </app-codepannel>
+      </div>
+      <div class="row">
+          <app-link-bar style="width:100%;">
+            {{ linkList | json }}
+          </app-link-bar>
+      </div>
+    </div>
+  </div>
+
+  <ng-template #template>
+    <div class="modal-header">
+        <h4 class="modal-title pull-left">Saved Wokflows</h4>
+              <button type="button" class="close pull-right"
+                      aria-label="Close" (click)="modalRef.hide()">
+                    <span aria-hidden="true">&times;</span>
+              </button>
+    </div>
+    <div class="modal-body" id="addNewModal" style="max-height: 400px; overflow: auto;">
+      <table class="table table-hover">
+        <thead>
+          <tr>
+            <th>Id</th>
+            <th>Name</th>
+            <th>Date</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let wf of existingWorkflows">
+            <td> {{ wf.id }} </td>
+            <td> {{ wf.name }} </td>
+            <td> {{ wf.addedOn }} </td>
+            <td>
+              <button class="btn btn-primary" (click)="load(wf.id)">load</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </ng-template>
+
+  <ng-template #saveModal>
+    <div class="modal-header">
+      <h4 class="modal-title pull-left">Save</h4>
+            <button type="button" class="close pull-right"
+                    aria-label="Close" (click)="modalRef.hide()">
+                  <span aria-hidden="true">&times;</span>
+            </button>
+    </div>
+    <div class="modal-body" id="addNewModal">
+      <div class="row">
+        <div class="col">
+            <form>
+                <div class="form-group">
+                  <label for="exampleFormControlInput1">Template Name</label>
+                  <input type="text" class="form-control form-control-sm" id="exampleFormControlInput1" #templateName
+                    placeholder="Enter template name" value="untitled_template" name="activityName">
+                </div>
+                <div *ngIf="errorMessage" class="alert alert-danger" role="alert">
+                  ERROR: {{ errorMessage }}
+                </div>
+                <div>
+                  <button class="btn btn-primary" (click)="save(templateName.value)">Save</button>
+                  &nbsp;
+                  <button class="btn btn-danger" (click)="onClear()">Discard</button>
+                </div>
+              </form>
+        </div>
+      </div>
+    </div>
+  </ng-template>
+
+  <ng-template #runModal>
+    <div class="modal-header">
+      <h4 class="modal-title pull-left">Execute [{{ selectedWorkFlow.name }}]</h4>
+            <button type="button" class="close pull-right"
+                    aria-label="Close" (click)="modalHide()">
+                  <span aria-hidden="true">&times;</span>
+            </button>
+    </div>
+    <div class="modal-body" id="addNewModal">
+      <div class="row">
+        <div class="col">
+            <form>
+                <div *ngIf="inputList.length">
+                    <div class="form-group" *ngFor="let runParam of inputList">
+                        <label>data. {{ runParam.key }}</label>
+                        <input type="text" class="form-control form-control-sm" name="executeInput"
+                          placeholder="Enter parameter value"  [(ngModel)]=runParam.value >
+                      </div>
+                </div>
+                <div *ngIf="!inputList.length" class="alert alert-primary" role="alert">
+                  No input parameter detected !
+                </div>
+                <div *ngIf="errorMessage" class="alert alert-danger" role="alert">
+                  ERROR: {{ errorMessage }}
+                </div>
+                <div>
+                  <button class="btn btn-primary" (click)="executeWorkflow(inputList)">Execute</button>
+                  &nbsp;
+                  <button class="btn btn-danger" (click)="modalHide()">Cancel</button>
+                </div>
+            </form>
+        </div>
+      </div>
+    </div>
+  </ng-template>
+
+  <div class="success-loader" *ngIf="showSuccessImage">
+    <img src="../../assets/success.gif" alt="successfuly executed" height="100px" width="100px">
+  </div>
+  <div class="success-loader" *ngIf="showLoadingImage">
+    <img src="../../assets/loading.gif" alt="loading..." height="100px" width="100px">
+  </div>
+

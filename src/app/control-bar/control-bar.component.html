@@ -1,0 +1,13 @@
+<div class="card bg-light mb-3" >
+    <div class="card-header bg-dark text-white">Toolbar</div>
+    <div class="card-body" id="control-body">
+      <div class="card-text">
+        <ul class="list-group">
+            <li class="list-group-item control"  id="control-circle" (mousedown)="onClick(CIRCLE)"  title="Start/End" draggable="true" (dragstart)="drag($event, CIRCLE)"></li>
+            <li class="list-group-item control"  id="control-activity" (mousedown)="onClick(ACTIVITY)"  title="Activity" draggable="true" (dragstart)="drag($event, ACTIVITY)"></li>
+            <li class="list-group-item control"  id="control-condition" (mousedown)="onClick(CONDITION)"  title="Condition" draggable="true" (dragstart)="drag($event, CONDITION)"></li>
+            <!-- <li class="list-group-item control"  id="control-arrow" (click)="onClick(ARROW)"  title="Connector"></li> -->
+        </ul>
+      </div>
+    </div>
+  </div>

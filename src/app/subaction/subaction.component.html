@@ -1,0 +1,41 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark navbar-subaction-padding">
+  <div class="navbar-inner">
+    <ul class="navbar-nav">
+      <li class="nav-item" >
+        <a class="nav-link" href="#" (click)="onMove('ArrowLeft')">
+          <i class="fa fa-arrow-left" aria-hidden="true" title="Move left"></i>
+        </a>
+      </li>
+      <li class="nav-item list-separator" >
+        <a class="nav-link" href="#" (click)="onMove('ArrowUp')">
+          <i class="fa fa-arrow-up" aria-hidden="true" title="Move up"></i>
+        </a>
+      </li>
+      <li class="nav-item list-separator" >
+        <a class="nav-link" href="#" (click)="onMove('ArrowRight')">
+          <i class="fa fa-arrow-right" aria-hidden="true" title="Move right"></i>
+        </a>
+      </li>
+      <li class="nav-item list-separator" >
+        <a class="nav-link" href="#" (click)="onMove('ArrowDown')">
+          <i class="fa fa-arrow-down" aria-hidden="true" title="Move down"></i>
+        </a>
+      </li>
+      <li class="nav-item list-separator" >
+        <a class="nav-link" href="#" (click)="onDo('undo')">
+          <i class="fa fa-undo" aria-hidden="true" title="Undo (Ctrl+Z)"></i>
+        </a>
+      </li>
+      <li class="nav-item list-separator" >
+        <a class="nav-link" href="#" (click)="onDo('redo')">
+          <i class="fa fa-repeat" aria-hidden="true" title="Redo (Ctrl+Y)"></i>
+        </a>
+      </li>
+      <li class="nav-item list-separator" >
+        <a class="nav-link" href="#" (click)="onDelete()">
+          <i class="fa fa-trash" aria-hidden="true" title="Delete (delete)"></i>
+        </a>
+      </li>
+    </ul>
+  </div>
+</nav>

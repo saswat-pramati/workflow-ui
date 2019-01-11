@@ -1,0 +1,231 @@
+<div class="card bg-light mb-3" style="width: 100%; max-height: 430px;">
+    <div class="card-header bg-dark text-white">Property Inspector
+        <span style="float: right" data-toggle="collapse" data-target="#property-tab">
+            <i class="if-collapsed fa fa-plus-square-o" aria-hidden="true"></i>
+            <i class="if-not-collapsed fa fa-minus-square-o" aria-hidden="true"></i>
+        </span>
+    </div>
+    <div class="card-body collapse show" style="overflow:auto; max-height: 400px;" id="property-tab">
+      <h5 class="card-title">{{ data && 'type: ' + data.type }}
+          <span style="color:gray; font-size: small;" *ngIf="data">
+              [
+              {{ 'no: ' + data.id + ', '}}
+              {{ data.cordinate | json }}
+              ]
+          </span>
+      </h5>
+      <!-- <h6 class="card-subtitle mb-2 text-muted">{{ data && 'Id: ' +data.id }}</h6> -->
+      <form *ngIf="data && data.type == 'circle'" >
+        <div class="row">
+          <div class="col">
+            <div class="form-group">
+              <label for="startEnd">Step Type</label>
+              <select class="form-control form-control-sm" id="startEnd" [(ngModel)]="data.data.Id" name="startEndName">
+                <option>Start</option>
+                <option [disabled]="data.nextId.length">End</option>
+              </select>
+            </div>
+          </div>
+        </div>
+      </form>
+      <form *ngIf="data && data.type == 'activity'" >
+        <div class="row">
+          <div class="col">
+              <div class="form-group">
+                <label for="exampleFormControlInput1">Activity Id</label>
+                <input type="text" class="form-control form-control-sm" id="exampleFormControlInput1" placeholder="Activity Id" [(ngModel)]="data.data.Id" name="activityName">
+              </div>
+              <div class="form-group">
+                <label for="exampleFormControlSelect2">Step Type</label>
+                <select class="form-control form-control-sm" id="exampleFormControlSelect2"
+                     [(ngModel)]="data.data.StepType ? parseStepType(data.data.StepType) : data.data.StepType"
+                     name="stepTypeSelect"
+                     (change)="onStepTypeChange($event.target.value)">
+                  <option *ngFor="let step of steptypes" [value]="step.stepType" >
+                    {{ step.stepName }}
+                  </option>
+                </select>
+              </div>
+
+              <div class="col-auto my-1">
+                  <div class="custom-control custom-checkbox mr-sm-2" style="display: inline;">
+                    <input #inputCheckbox type="checkbox" class="custom-control-input" id="inputCheckbox" [checked]=inputCheck
+                              (change)="onInputCheckedChange($event.target.checked)">
+                    <label class="custom-control-label" for="inputCheckbox">input?</label>
+                    &nbsp;
+                    <i *ngIf="inputCheck" class="fa fa-plus-square-o" aria-hidden="true"
+                    title="add more input" (click)="openInputModal(inputModal)"></i>
+                  </div>
+                </div>
+                <div class="form-group row" *ngIf="inputCheck && checkIfInputOutputEmpty(data.data.Inputs)" style="padding: 15px;">
+                    <table class="table table-hover table-sm">
+                      <thead>
+                        <tr>
+                            <th></th>
+                            <th class="small-font">Input variable</th>
+                            <th class="small-font">Assign variable</th>
+                            <th></th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr *ngFor="let param of data.data.Inputs | keys">
+                          <td>
+                            {{ param.index }}
+                          </td>
+                          <td>
+                            {{ param.key}}
+                          </td>
+                          <td>
+                            {{ param.value }}
+                          </td>
+                          <td>
+                            <i class="fa fa-trash" aria-hidden="true" (click)="deleteInputKey(param.key)"></i>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                </div>
+                <div class="col-auto my-1">
+                  <div class="custom-control custom-checkbox mr-sm-2">
+                    <input #outputCheckbox type="checkbox" class="custom-control-input" id="outputCheck"
+                        [checked]=outputCheck (change)="onOutputCheckedChange($event.target.checked)" >
+                    <label class="custom-control-label" for="outputCheck">output?</label>
+                    &nbsp;
+                    <i *ngIf="outputCheck" class="fa fa-plus-square-o" aria-hidden="true"
+                    title="add more output" (click)="openInputModal(outputModal)"></i>
+                  </div>
+                </div>
+                <div class="form-group row" *ngIf="outputCheck && checkIfInputOutputEmpty(data.data.Outputs)" style="padding: 15px;">
+                  <table class="table table-hover table-sm">
+                    <thead>
+                      <tr>
+                          <th></th>
+                          <th class="small-font">Output variable</th>
+                          <th class="small-font">Assign variable</th>
+                          <th></th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let outputparam of data.data.Outputs | keys">
+                        <td>
+                            {{ outputparam.index }}
+                        </td>
+                        <td>
+                          {{ outputparam.key }}
+                        </td>
+                        <td>
+                          {{ outputparam.value }}
+                        </td>
+                        <td>
+                          <i class="fa fa-trash" aria-hidden="true" (click)="deleteOutputKey(outputparam.key)"></i>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+              </div>
+          </div>
+        </div>
+      </form>
+
+      <form class="container" *ngIf="data && data.type == 'condition'">
+          <div class="form-group">
+            <label for="exampleFormControlInput1">Condition Name</label>
+            <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="Condition name"
+                 [(ngModel)]="data.data.Id" name="conditionName" />
+          </div>
+          <div class="form-group">
+            <label for="exampleFormControlInput2">Primitives</label>
+            <select type="text" class="form-control" id="exampleFormControlInput2"
+                 [(ngModel)]="data.data.StepType ? parseStepType(data.data.StepType) : data.data.StepType"
+                 name="conditionStepType" (change)="onStepTypeChange($event.target.value)">
+                 <option>WorkflowCore.Steps.Primitives.If</option>
+                 <option>WorkflowCore.Steps.Primitives.While</option>
+                 <option>WorkflowCore.Steps.Primitives.ForEach</option>
+                </select>
+          </div>
+          <div class="form-group">
+            <label for="exampleFormControlSelect1">Expression to Evaluate</label>
+            <input type="text" class="form-control" id="exampleFormControlSelect1" placeholder="Ex:- data.Value > 3"
+            [(ngModel)]="data.data.Inputs.Condition" name="conditionExpression" />
+          </div>
+        </form>
+    </div>
+  </div>
+
+  <ng-template #inputModal>
+      <div class="modal-header">
+          <h4 class="modal-title pull-left">Input Parameter</h4>
+                <button type="button" class="close pull-right"
+                        aria-label="Close" (click)="modalRef.hide()">
+                      <span aria-hidden="true">&times;</span>
+                </button>
+      </div>
+      <div class="modal-body" id="addNewModal" style="max-height: 400px; overflow: auto;">
+        <table class="table table-hover">
+          <thead>
+            <tr>
+              <th>Variable</th>
+              <th>Value</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+                <td>
+                    <select class="form-control form-control-sm"  name="inputSelectName" [(ngModel)]="inputoutputParam.key">
+                        <option *ngFor="let inputKey of parameters.inputs" >{{ inputKey }}</option>
+                    </select>
+                </td>
+                <td>
+                  <select class="form-control form-control-sm"  name="inputValueSelect" *ngIf="!isTextInpput"  [(ngModel)]="inputoutputParam.value">
+                    <option *ngFor="let inputVal of parameters.inputs" >{{ inputVal }}</option>
+                  </select>
+                  <input type="text" class="form-control form-control-sm" *ngIf="isTextInpput" [(ngModel)]="inputoutputParam.value"/>
+                  <span style="font-size: small;display: inline;">
+                    <input type="checkbox" (change)="onTextCheckChanged($event.target.checked)">
+                  switch to text</span>
+                </td>
+            </tr>
+          </tbody>
+        </table>
+        <button class="btn btn-primary" (click)="addInputParam()">Add</button>
+      </div>
+    </ng-template>
+
+    <ng-template #outputModal>
+        <div class="modal-header">
+            <h4 class="modal-title pull-left">Output Parameter</h4>
+                  <button type="button" class="close pull-right"
+                          aria-label="Close" (click)="modalRef.hide()">
+                        <span aria-hidden="true">&times;</span>
+                  </button>
+        </div>
+        <div class="modal-body" id="addNewModal" style="max-height: 400px; overflow: auto;">
+          <table class="table table-hover">
+            <thead>
+              <tr>
+                <th>Variable</th>
+                <th>Value</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                  <td>
+                      <select class="form-control form-control-sm"  name="outputSelectName" [(ngModel)]="inputoutputParam.key">
+                          <option *ngFor="let outputKey of parameters.outputs" >{{ outputKey }}</option>
+                      </select>
+                  </td>
+                  <td>
+                    <select class="form-control form-control-sm"  name="outputValueSelect" *ngIf="!isTextInpput"  [(ngModel)]="inputoutputParam.value">
+                      <option *ngFor="let outputVal of parameters.outputs" >{{ outputVal }}</option>
+                    </select>
+                    <input type="text" class="form-control form-control-sm" *ngIf="isTextInpput" [(ngModel)]="inputoutputParam.value"/>
+                    <span style="font-size: small;display: inline;">
+                      <input type="checkbox" (change)="onTextCheckChanged($event.target.checked)">
+                    switch to text</span>
+                  </td>
+              </tr>
+            </tbody>
+          </table>
+          <button class="btn btn-primary" (click)="addOutputParam()">Add</button>
+        </div>
+      </ng-template>

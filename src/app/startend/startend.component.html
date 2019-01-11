@@ -1,0 +1,36 @@
+<svg:g (mouseover)="isHovered = true" (mouseleave)="isHovered = false">
+      <svg:ellipse [attr.class]="!isSelected ? 'ellipse': 'ellipse ellipse-select'"
+      [attr.cx]="x"
+      [attr.cy]="y"
+      [attr.rx]="rx" [attr.ry]="ry"
+      (click)="onSelect($event)"
+      (mousedown)="dragStart($event)"
+      (mousemove)="drag($event)"
+      (mouseleave)="dragEnd()"
+      (mouseup)="dragEnd()"
+      >
+    </svg:ellipse>
+
+    <svg:text [attr.x]="x"
+            [attr.y]="y"
+            class="control-text"
+            alignment-baseline="middle"
+            (click)="onSelect($event)"
+            (mousedown)="dragStart($event)"
+            (mousemove)="drag($event)"
+            (mouseleave)="dragEnd()"
+            (mouseup)="dragEnd()">{{name}}</svg:text>
+
+    <svg:g app-connector
+      [attr.class]="isSelected ? 'connector visible' : 'connector'"
+      [controlType]="'circle'" [height]="height" [width]="width" [controlCordinates]="connectorCordinate"
+      [controlId]="id" />
+
+    <svg:g app-receiver
+      [attr.class]="isHovered ? 'receiver visible' : 'receiver'"
+      [controlType]="'circle'"
+      [controlId]="id"
+      [controlCordinates]="connectorCordinate"
+      [height]="height" [width]="width"
+      />
+</svg:g>

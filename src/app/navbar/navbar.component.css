@@ -1,0 +1,11 @@
+.navbar-custom-padding {
+  padding: .2rem .5rem;
+  background-color: #0e0e0e !important;
+}
+
+.alert-primary {
+  margin-left: 10px;
+  display: inherit;
+  padding: .02rem 0.2rem !important;
+  margin-bottom: 0 !important;
+}

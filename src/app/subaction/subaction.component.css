@@ -1,0 +1,16 @@
+.navbar-subaction-padding {
+  padding: .2rem .5rem;
+  margin-left: -15px;
+  margin-right: -15px;
+  height: 2.4rem;
+}
+
+.list-separator{
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+  border-left: 1px solid #7b7b7b;
+}
+
+.nav-item:hover {
+  background-color: #7b7b7b;
+}

@@ -1,0 +1,7 @@
+<svg:g>
+  <svg:circle [attr.cx]="cordinate.left.x" [attr.cy]="cordinate.left.y" r="3"  id="leftPlug" class="receiver-dot" (mouseup)="connectionArrive(cordinate.left, 'right')" ></svg:circle>
+  <svg:circle [attr.cx]="cordinate.up.x" [attr.cy]="cordinate.up.y" r="3"  id="upPlug" class="receiver-dot" (mouseup)="connectionArrive(cordinate.up, 'down')"></svg:circle>
+  <svg:circle [attr.cx]="cordinate.right.x" [attr.cy]="cordinate.right.y" r="3"  id="rightPlug" class="receiver-dot" (mouseup)="connectionArrive(cordinate.right, 'left')"></svg:circle>
+  <svg:circle [attr.cx]="cordinate.down.x" [attr.cy]="cordinate.down.y" r="3"  id="downPlug" class="receiver-dot" (mouseup)="connectionArrive(cordinate.down, 'up')"></svg:circle>
+</svg:g>
+

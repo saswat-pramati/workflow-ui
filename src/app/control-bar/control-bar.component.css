@@ -1,0 +1,30 @@
+.list-group-item:hover {
+  background-color: #7c7878;
+  cursor: pointer;
+}
+
+.control {
+  background-repeat: no-repeat;
+  background-position: center;
+  height: 70px;
+}
+
+#control-circle {
+  background-image: url(../../assets/start.svg);
+}
+
+#control-activity {
+  background-image: url(../../assets/activity.svg);
+}
+
+#control-condition {
+  background-image: url(../../assets/condition.svg);
+}
+
+#control-arrow {
+  background-image: url(../../assets/arrow.svg);
+}
+
+#control-body {
+  padding: 0 !important
+}

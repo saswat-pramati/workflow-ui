@@ -1,0 +1,6 @@
+.virtual-arrow {
+  fill:none;
+  stroke: #121312;
+  stroke-width: 1;
+  stroke-dasharray: 8 2;
+}

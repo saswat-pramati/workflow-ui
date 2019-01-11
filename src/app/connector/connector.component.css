@@ -1,0 +1,9 @@
+.linkPointArrow {
+  fill: #9e9a9a;
+  cursor: pointer;
+}
+
+.linkPointArrow:hover {
+  fill: black;
+  cursor: pointer;
+}

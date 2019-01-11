@@ -1,0 +1,21 @@
+.svg-control:hover {
+  cursor: pointer;
+}
+
+
+.card {
+  /* box-shadow: 0px 3px #888585; */
+}
+
+
+.modal-dialog {
+  max-width: 700px !important;
+}
+
+
+.success-loader {
+  position: fixed;
+   top: 50%;
+   left: 50%;
+   transform: translate(-50%, -50%);
+}

@@ -1,0 +1,12 @@
+.polygon {
+  transition: fill .3s ease;
+  /* cursor: pointer; */
+}
+
+.static {
+  cursor: not-allowed;
+}
+.draggable {
+  cursor: move;
+}
+

@@ -1,0 +1,7 @@
+<svg:polyline
+    [attr.points]="linePoints"
+    [attr.class]="isSelected ? 'linkArrow linkArrow-select': 'linkArrow'"
+    (click)="onSelect($event)"
+
+    ></svg:polyline>
+<svg:polygon [attr.points]="arrowPoints" class="linkPointArrow" (mousedown)="moveStart($event)"></svg:polygon>

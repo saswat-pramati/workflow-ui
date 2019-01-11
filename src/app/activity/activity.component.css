@@ -1,0 +1,29 @@
+.rect:hover {
+  fill: white;
+  cursor: move;
+  stroke: green;
+  stroke-width: 2;
+}
+
+.rect {
+  fill: white;
+  stroke: #333;
+  stroke-width: 0.75;
+}
+
+
+.rect-select {
+  stroke: #000000;
+  stroke-width: 1;
+  stroke-dasharray: 8 2;
+  animation: dash 20s linear alternate infinite;
+}
+
+@keyframes dash {
+  from {
+    stroke-dashoffset: 1000;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}

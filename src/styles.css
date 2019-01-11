@@ -1,0 +1,69 @@
+@import "~@angular/cdk/overlay-prebuilt.css";
+/* You can add global styles to this file, and also import other style files */
+.svg {
+  height: 1000px;
+  width: 100%;
+  display: block;
+  /* background-color: #fbf9f9; */
+}
+
+.graph {
+  background: url(assets/grid.gif);
+}
+
+.bordered {
+  border: 1;
+}
+
+.div-pannel {
+  /* padding: 3px; */
+}
+
+
+.connector {
+  fill: #a8a6a6;
+  visibility: hidden;
+}
+
+.visible {
+  visibility: visible;
+}
+
+.connector:hover {
+  fill: #000000;
+  cursor: pointer;
+}
+
+.receiver {
+  fill: #818382;
+  visibility: hidden;
+}
+
+.receiver:hover {
+  stroke: #0c8d28;
+  stroke-width: 5;
+  fill: #df6c6c;
+  cursor: pointer;
+}
+
+.control-text {
+  fill: black;
+  font-size: 12px;
+  font-weight: bold;
+  text-anchor: middle;
+}
+
+.control-text {
+  cursor: move;
+}
+
+svg text {
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
+}
+svg text::selection {
+  background: none;
+}
+

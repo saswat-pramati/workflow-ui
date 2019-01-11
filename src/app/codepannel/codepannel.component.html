@@ -1,0 +1,13 @@
+<div class="card bg-light mb-3" >
+    <div class="card-header bg-dark text-white">Controls
+        <span style="float: right; cursor: pointer;" data-toggle="collapse" data-target="#control-tab">
+            <i class="if-collapsed fa fa-plus-square-o" aria-hidden="true"></i>
+            <i class="if-not-collapsed fa fa-minus-square-o" aria-hidden="true"></i>
+        </span>
+    </div>
+    <div class="card-body collapse show" style="overflow:auto; max-height: 300px;" id="control-tab">
+      <div class="card-text">
+          <pre><ng-content></ng-content></pre>
+      </div>
+    </div>
+  </div>

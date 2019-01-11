@@ -1,0 +1,51 @@
+<svg:g (mouseover)="isHovered = true" (mouseleave)="isHovered = false">
+  <svg:polygon  [attr.class]="!isSelected ? 'polygon': 'polygon polygon-select'"
+              [attr.points]="makePoints()"
+              (click)="onSelect($event)"
+              (mousedown)="dragStart($event)"
+              (mousemove)="drag($event)"
+              (mouseleave)="dragEnd()"
+              (mouseup)="dragEnd()"
+></svg:polygon>
+<svg:text [attr.x]="x"
+          [attr.y]="y"
+          class="control-text"
+          alignment-baseline="middle"
+          (click)="onSelect($event)"
+          (mousedown)="dragStart($event)"
+          (mousemove)="drag($event)"
+          (mouseleave)="dragEnd()"
+          (mouseup)="dragEnd()">{{name}}</svg:text>
+
+  <svg:polygon *ngIf="nextId.length < 2"
+               name="ifYes"
+               [attr.points]="yes_connector_cordinates"
+               [attr.class]="isSelected ? 'connector visible' : 'connector'"
+               (mousedown)="connectionStart('down', true, $event)"
+               [shAttachMenu]="menu"
+                />
+  <svg:polygon *ngIf="nextId.length < 2"
+                name="ifNo"
+                [attr.points]="no_connector_cordinates"
+                [attr.class]="isSelected ? 'connector visible' : 'connector'"
+                (mousedown)="connectionStart('right', false, $event)"
+                [shAttachMenu]="menu"
+                 />
+
+<svg:text [attr.x]="text_cordinates.yes.x" [attr.y]="text_cordinates.yes.y" style="fill:#2b0c0c; font-size: 12px;" >{{ conditionMenu.down }}</svg:text>
+<svg:text [attr.x]="text_cordinates.no.x" [attr.y]="text_cordinates.no.y" style="fill:#2b0c0c; font-size: 12px;" >{{ conditionMenu.right }}</svg:text>
+
+<svg:g app-receiver
+      [attr.class]="isHovered ? 'receiver visible' : 'receiver'"
+      [controlType]="'condition'"
+      [controlId]="id"
+      [controlCordinates]="connectorCordinate"
+      [height]="height" [width]="width"
+      />
+</svg:g>
+
+<sh-context-menu #menu>
+  <ng-template shContextMenuItem let-data (click)="toggleConditionDirection()">
+    <div>Toggle direction?</div>
+  </ng-template>
+</sh-context-menu>
